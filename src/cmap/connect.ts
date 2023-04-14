@@ -36,6 +36,8 @@ import {
   MIN_SUPPORTED_WIRE_VERSION
 } from './wire_protocol/constants';
 
+const WebsocketWrapper = require('./WebsocketWrapper');
+
 /** @internal */
 export const AUTH_PROVIDERS = new Map<AuthMechanism | string, AuthProvider>([
   [AuthMechanism.MONGODB_AWS, new MongoDBAWS()],
@@ -361,23 +363,15 @@ function makeConnection(options: MakeConnectionOptions, _callback: Callback<Stre
   }
 
   if (useTLS) {
-    const tlsSocket = tls.connect(parseSslOptions(options));
-    if (typeof tlsSocket.disableRenegotiation === 'function') {
-      tlsSocket.disableRenegotiation();
-    }
-    socket = tlsSocket;
+    socket = new WebsocketWrapper(options.hostAddress.host, options.hostAddress.port, '', true);
   } else if (existingSocket) {
     // In the TLS case, parseSslOptions() sets options.socket to existingSocket,
     // so we only need to handle the non-TLS case here (where existingSocket
     // gives us all we need out of the box).
     socket = existingSocket;
   } else {
-    socket = net.createConnection(parseConnectOptions(options));
+    socket = new WebsocketWrapper(options.hostAddress.host, options.hostAddress.port, '', false);
   }
-
-  socket.setKeepAlive(keepAlive, keepAliveInitialDelay);
-  socket.setTimeout(connectTimeoutMS);
-  socket.setNoDelay(noDelay);
 
   const connectEvent = useTLS ? 'secureConnect' : 'connect';
   let cancellationHandler: (err: Error) => void;
@@ -409,7 +403,7 @@ function makeConnection(options: MakeConnectionOptions, _callback: Callback<Stre
     callback(undefined, socket);
   }
 
-  SOCKET_ERROR_EVENTS.forEach(event => socket.once(event, errorHandler(event)));
+  SOCKET_ERROR_EVENTS.forEach(event => socket.on('error', errorHandler(event)));
   if (options.cancellationToken) {
     cancellationHandler = errorHandler('cancel');
     options.cancellationToken.once('cancel', cancellationHandler);
@@ -418,7 +412,8 @@ function makeConnection(options: MakeConnectionOptions, _callback: Callback<Stre
   if (existingSocket) {
     process.nextTick(connectHandler);
   } else {
-    socket.once(connectEvent, connectHandler);
+    // socket.once(connectEvent, connectHandler);
+    socket.on('connect', connectHandler);
   }
 }
 

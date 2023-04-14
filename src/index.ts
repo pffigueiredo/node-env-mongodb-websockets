@@ -470,3 +470,28 @@ export type {
   MongoDBNamespace
 } from './utils';
 export type { W, WriteConcernOptions, WriteConcernSettings } from './write_concern';
+
+// const url = 'mongodb://localhost:27017';
+// const client = new MongoClient(url, {
+//   serverSelectionTimeoutMS: 0,
+// });
+// console.log(client);
+
+// client.connect().then;
+// var MongoClient = require('mongodb').MongoClient;
+// var url = "mongodb://localhost:27017/mydb";
+
+// MongoClient.connect(url, async function (err, client: MongoClient | undefined) {
+//   if (err) throw err;
+//   console.log('Client created!');
+//   let coll: any = client?.db('test').collection('foo');
+//   await coll.insertOne({ a: 'test' });
+
+//   console.log("Printing every element of db.foo");
+//   const cursor = coll.find({});
+//   for await (const doc of cursor) {
+//     console.log(doc);
+//   }
+
+//   client?.close();
+// });

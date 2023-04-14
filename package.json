@@ -1,7 +1,7 @@
 {
-  "name": "mongodb",
-  "version": "5.2.0",
-  "description": "The official MongoDB driver for Node.js",
+  "name": "mongodb-node-websockets",
+  "version": "0.0.1",
+  "description": "A fork of the official MongoDB driver for Node.js that uses WebSockets but for running in a Node based env",
   "main": "lib/index.js",
   "files": [
     "lib",
@@ -13,12 +13,11 @@
   "types": "mongodb.d.ts",
   "repository": {
     "type": "git",
-    "url": "git@github.com:mongodb/node-mongodb-native.git"
+    "url": "git@github.com:pffigueiredo/node-env-mongodb-websockets.git"
   },
   "keywords": [
     "mongodb",
-    "driver",
-    "official"
+    "driver"
   ],
   "author": {
     "name": "The MongoDB NodeJS Team",
@@ -27,7 +26,8 @@
   "dependencies": {
     "bson": "^5.2.0",
     "mongodb-connection-string-url": "^2.6.0",
-    "socks": "^2.7.1"
+    "socks": "^2.7.1",
+    "ws": "^8.13.0"
   },
   "optionalDependencies": {
     "saslprep": "^1.0.3"
