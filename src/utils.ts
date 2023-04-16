@@ -1,6 +1,6 @@
 import * as crypto from 'crypto';
 import type { SrvRecord } from 'dns';
-import { URL } from 'url';
+import { parse as urlParse } from 'url';
 
 import { Document, ObjectId, resolveBSONOptions } from './bson';
 import type { Connection } from './cmap/connection';
@@ -947,15 +947,15 @@ export class HostAddress {
     const urlString = `iLoveJS://${escapedHost}`;
     let url;
     try {
-      url = new URL(urlString);
+      url = urlParse(urlString);
     } catch (urlError) {
       const runtimeError = new MongoRuntimeError(`Unable to parse ${escapedHost} with URL`);
       runtimeError.cause = urlError;
       throw runtimeError;
     }
 
-    const hostname = url.hostname;
-    const port = url.port;
+    const hostname = url.hostname as string;
+    const port = url.port as string;
 
     let normalized = decodeURIComponent(hostname).toLowerCase();
     if (normalized.startsWith('[') && normalized.endsWith(']')) {
