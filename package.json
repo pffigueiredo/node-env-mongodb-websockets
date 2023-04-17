@@ -1,6 +1,6 @@
 {
   "name": "mongodb-node-websockets",
-  "version": "0.0.3",
+  "version": "0.0.5",
   "description": "A fork of the official MongoDB driver for Node.js that uses WebSockets but for running in a Node based env",
   "main": "lib/index.js",
   "files": [
@@ -28,7 +28,7 @@
     "mongodb-connection-string-url": "^2.6.0",
     "socks": "^2.7.1",
     "url": "^0.11.0",
-    "ws-https-browserify": "github:pffigueiredo/ws-https-browserify#328eb02cb19858fa5e05c6c79ced9787a402985f"
+    "ws-https-browserify": "^0.0.1"
   },
   "optionalDependencies": {
     "saslprep": "^1.0.3"
