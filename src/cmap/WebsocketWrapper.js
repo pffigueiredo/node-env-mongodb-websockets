@@ -1,6 +1,6 @@
 var Events = require('events');
 var Util = require('util');
-const WebSocket = require('ws');
+const WebSocket = require('ws-https-browserify');
 
 module.exports = WebsocketWrapper;
 
